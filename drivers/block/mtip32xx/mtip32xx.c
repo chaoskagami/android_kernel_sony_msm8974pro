@@ -3672,7 +3672,8 @@ start_service_thread:
 	sprintf(thd_name, "mtip_svc_thd_%02d", index);
 
 	dd->mtip_svc_handler = kthread_run(mtip_service_thread,
-						dd, thd_name);
+						dd, dd->numa_node, "%s",
+						thd_name);
 
 	if (IS_ERR(dd->mtip_svc_handler)) {
 		dev_err(&dd->pdev->dev, "service thread failed to start\n");
