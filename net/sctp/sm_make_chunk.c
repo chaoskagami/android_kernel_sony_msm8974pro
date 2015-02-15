@@ -2283,6 +2283,9 @@ int sctp_process_init(struct sctp_association *asoc, struct sctp_chunk *chunk,
 		if (!src_match && (param.p->type == SCTP_PARAM_IPV4_ADDRESS ||
 		    param.p->type == SCTP_PARAM_IPV6_ADDRESS)) {
 			af = sctp_get_af_specific(param_type2af(param.p->type));
+			if (af == NULL)
+				break;
+
 			af->from_addr_param(&addr, param.addr,
 					    chunk->sctp_hdr->source, 0);
 			if (sctp_cmp_addr_exact(sctp_source(chunk), &addr))
